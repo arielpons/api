@@ -30,7 +30,6 @@ const getUsuario = async (req, res) => {
 const putUsuario = async (req, res) => {
     try {
         const usuario = await Usuario.findOneAndUpdate({ _id: req.params._id},{...req.body }, { new: true });
-        console.log(usuario)
         if(!usuario) {
             return res.status(404).json({
                 code: "NOT-FOUND",

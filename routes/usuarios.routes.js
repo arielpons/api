@@ -7,7 +7,7 @@ const {
     deleteUsuario,
 } = require('../controllers/usuarios.controller');
 
-const { validarTokenUsuario, validarRoles } = require('../middlewares/validarAuth');
+const { validarTokenUsuario } = require('../middlewares/validarAuth');
 
 const {
     validarIdParamUsuario,
@@ -17,7 +17,7 @@ const {
 router.get('/:_id', validarTokenUsuario, validarIdParamUsuario, getUsuario);
 router.put(
     '/:_id',
-    [validarRoles('ADMIN'), validarTokenUsuario, validarIdParamUsuario, validarPutUsuario],
+    [validarTokenUsuario, validarIdParamUsuario, validarPutUsuario],
      putUsuario
     );
 router.delete('/:_id',

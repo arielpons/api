@@ -50,6 +50,7 @@ const validarTokenUsuario = async (req, res, next) => {
         const token = authorization.split(" ")[1];
         const { _id } = jwt.verify(token, process.env.PRIVATE_KEY);
         const usuario = await Usuario.findById({ _id});
+        console.log(usuario._id)
         if(!usuario){
         return res.status(401).json({
             code: "AUTH-ERR",
@@ -58,8 +59,7 @@ const validarTokenUsuario = async (req, res, next) => {
             data: null
         });
         }
-
-        if(usuario._id === _id || usuario.rol === "ADMIN"){
+        if(usuario._id == _id || usuario.rol == "ADMIN"){
         req.usuario = usuario;
         return next();
         } else {
@@ -69,7 +69,7 @@ const validarTokenUsuario = async (req, res, next) => {
                 success: false,
                 data: null
             });
-        }
+        } 
     } catch(err){
         return res.status(400).json({
             code: "AUTH-ERROR",
@@ -157,19 +157,7 @@ try{
     };
 };
 
-const validarRoles = (...roles) => {
-    return async(req,res,next)=> {
-        if(roles.includes(req.usuario.rol)){
-            return next();
-        }
-        return res.status(403).json({
-            code: "AUTH-ERR",
-            message: "Acceso restringido",
-            success: false,
-            data: null
-        });
-    }       
-}
+
 
 module.exports = {
     validarToken,
@@ -177,5 +165,4 @@ module.exports = {
     validarTokenRopa,
     validarLogin,
     validarRegistro,
-    validarRoles
 }
