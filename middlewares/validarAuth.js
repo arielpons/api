@@ -50,7 +50,6 @@ const validarTokenUsuario = async (req, res, next) => {
         const token = authorization.split(" ")[1];
         const { _id } = jwt.verify(token, process.env.PRIVATE_KEY);
         const usuario = await Usuario.findById({ _id});
-        const rol = await Usuario.find({ rol})
         if(!usuario){
         return res.status(401).json({
             code: "AUTH-ERR",
